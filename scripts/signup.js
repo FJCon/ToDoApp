@@ -7,8 +7,6 @@ window.addEventListener('load', function () {
     const pass = document.querySelector('#inputPassword');
     const repass = document.querySelector('#inputPasswordRepetida');
     
-    
-    
     const url = 'https://todo-api.ctd.academy/v1';
 
 
@@ -16,13 +14,22 @@ window.addEventListener('load', function () {
     /* -------------------------------------------------------------------------- */
     /*            VALIDACIONES EN EL FORMULARIO SIGN UP EN LADO CLIENTE           */
     /* -------------------------------------------------------------------------- */
-    n
-    
+    function validarDatos(){
+        let condicion = false;
+        if( validarNombre(nombre.value) && validarApellido(apellido.value) && validarEmail(email.value) && validarContrasenia(pass.value) && compararContrasenias(pass.value, repass.value)){
+            condicion = false;
+        }else{
+            return condicion;
+        }
+    }
     /* -------------------------------------------------------------------------- */
     /*            FUNCIÓN 1: Escuchamos el submit y preparamos el envío           */
     /* -------------------------------------------------------------------------- */
     form.addEventListener('submit', function (event) {  
         event.preventDefault();
+        if(validarDatos()){
+
+        }
         const payload = {
             "firstName": nombre.value,
             "lastName": apellido.value,
@@ -59,9 +66,10 @@ window.addEventListener('load', function () {
             .then(data =>{
                 console.log('Promesa cumplida');
                 if(data.jwt){
-                    localStorage.setItem('jwt', JSON.stringify(data.jwt)); //guardo en LocalStorage el objeto con el token
+                    localStorage.setItem('jwt', JSON.stringify(data.jwt)); //guarda function validarFormulario()
+                    })
                     location.replace('./mis-tareas.html'); //redireccionamos a la página
-                }
+                
             }).catch(err => {
                 console.log("Promesa rechazada:");
                 console.log(err);
