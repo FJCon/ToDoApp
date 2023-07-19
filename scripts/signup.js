@@ -6,9 +6,9 @@ window.addEventListener('load', function () {
     const email = document.querySelector('#inputEmail');
     const pass = document.querySelector('#inputPassword');
     const repass = document.querySelector('#inputPasswordRepetida');
-    const spanNombre = document.querySelector('#inputNombreMensaje');
-    const spanApellido = document.querySelector('#inputApellidoMensaje');
-    const spanEmail = documet.querySelector('#inputEmailMensaje');
+    
+    
+    
     const url = 'https://todo-api.ctd.academy/v1';
 
 
@@ -16,20 +16,7 @@ window.addEventListener('load', function () {
     /* -------------------------------------------------------------------------- */
     /*            VALIDACIONES EN EL FORMULARIO SIGN UP EN LADO CLIENTE           */
     /* -------------------------------------------------------------------------- */
-    nombre.addEventListener('focusout', ()=>{
-        const valor = nombre.value;
-        spanNombre.innerText = validarTexto(valor);
-    })
-    apellido.addEventListener('focusout',()=>{
-        const valor = apellido.value;
-        spanApellido.innerText = validarTexto(valor);
-    })
-
-    email.addEventListener('focusout', ()=>{
-        const email = email.value;
-        spanEmail.innerText = validarEmail(email);
-    })
-
+    n
     
     /* -------------------------------------------------------------------------- */
     /*            FUNCIÓN 1: Escuchamos el submit y preparamos el envío           */
