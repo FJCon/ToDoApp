@@ -1,4 +1,4 @@
-window.addEventListener('load', function () {
+window.addEventListener('load', function (){
     /* ---------------------- obtenemos variables globales ---------------------- */
     const form = document.querySelector('form');
     const nombre = document.querySelector('#inputNombre');
@@ -28,26 +28,25 @@ window.addEventListener('load', function () {
     form.addEventListener('submit', function (event) {  
         event.preventDefault();
         if(validarDatos()){
-
+            const payload = {
+                "firstName": nombre.value,
+                "lastName": apellido.value,
+                "email": email.value,
+                "password": pass.value
+            };
+    
+            const settings = {
+                method: 'POST',
+                body: JSON.stringify(payload),
+                headers:{   
+                    'Content-Type': 'application/json'
+                }
+            };
+            
+            realizarRegister(settings);
+    
+            form.reset();
         }
-        const payload = {
-            "firstName": nombre.value,
-            "lastName": apellido.value,
-            "email": email.value,
-            "password": pass.value
-        };
-
-        const settings = {
-            method: 'POST',
-            body: JSON.stringify(payload),
-            headers:{   
-                'Content-Type': 'application/json'
-            }
-        };
-        
-        realizarRegister(settings);
-
-        form.reset();
     });
 
     /* -------------------------------------------------------------------------- */
@@ -70,7 +69,7 @@ window.addEventListener('load', function () {
                     })
                     location.replace('./mis-tareas.html'); //redireccionamos a la página
                 
-            }).catch(err => {
+            }.catch(err => {
                 console.log("Promesa rechazada:");
                 console.log(err);
             })
