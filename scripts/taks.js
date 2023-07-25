@@ -16,6 +16,7 @@ window.addEventListener('load', function () {
   const btnCerrarSesion = document.querySelector('#closeApp');
 
   obtenerNombreUsuario();
+  consultarTareas();
   /* -------------------------------------------------------------------------- */
   /*                          FUNCIÓN 1 - Cerrar sesión                         */
   /* -------------------------------------------------------------------------- */
@@ -44,6 +45,7 @@ window.addEventListener('load', function () {
 
       console.log('Nombre usuario:')
       console.log(data.firstName)
+      
       const userName = document.querySelector('header .user-info p');
       userName.innerText = data.firstName
     });
@@ -57,9 +59,32 @@ window.addEventListener('load', function () {
   /* -------------------------------------------------------------------------- */
 
   function consultarTareas() {
+    const tareasPedientes = document.querySelector('ul.tareas-pendientes');
+    const tareasCompletadas = document.querySelector('ul.tareas-terminadas')
     
-    
+    const settings = {
+      mothod: "GET",
+      headers:{
+        authorization:token
+      }
+    }
 
+    fetch(urlTareas,settings)
+    .then(response=>response.json())
+    .then(data=>{
+      console.log(data);
+
+      data.forEach(task => {
+        let tarea = `<li class='tarea' id='${task.id}' >
+          ${task.description}
+        </li>`
+        if(task.completed){
+          tareasCompletadas.innerHTML += tarea;
+        }else{
+          tareasPedientes.innerHTML += tarea;
+        }
+      });
+    })
 
 
   };
