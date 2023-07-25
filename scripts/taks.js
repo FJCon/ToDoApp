@@ -9,10 +9,13 @@ window.addEventListener('load', function () {
 
   /* ---------------- variables globales y llamado a funciones ---------------- */
   const urlTareas = 'https://todo-api.ctd.academy/v1/tasks';
-  const urlUsiario = 'https://todo-api.ctd.academy/v1/users/getMe';
+  const urlUsuario = 'https://todo-api.ctd.academy/v1/users/getMe';
+  const token = JSON.parse(localStorage.jwt);
+
+
   const btnCerrarSesion = document.querySelector('#closeApp');
 
-
+  obtenerNombreUsuario();
   /* -------------------------------------------------------------------------- */
   /*                          FUNCIÓN 1 - Cerrar sesión                         */
   /* -------------------------------------------------------------------------- */
@@ -20,9 +23,6 @@ window.addEventListener('load', function () {
   btnCerrarSesion.addEventListener('click', function () {
    localStorage.clear();
    location.replace('./index.html');
-
-
-
   });
 
   /* -------------------------------------------------------------------------- */
@@ -30,8 +30,23 @@ window.addEventListener('load', function () {
   /* -------------------------------------------------------------------------- */
 
   function obtenerNombreUsuario() {
-   
+    
+    const settings ={
+      method: "GET",
+      headers:{
+        authorization:token
+      }
+    };
 
+    fetch(urlUsuario,settings)
+    .then(response =>response.json())
+    .then(data=>{
+
+      console.log('Nombre usuario:')
+      console.log(data.firstName)
+      const userName = document.querySelector('header .user-info p');
+      userName.innerText = data.firstName
+    });
 
 
   };
@@ -54,13 +69,14 @@ window.addEventListener('load', function () {
   /*                    FUNCIÓN 4 - Crear nueva tarea [POST]                    */
   /* -------------------------------------------------------------------------- */
 
-  formCrearTarea.addEventListener('submit', function (event) {
+  /*formCrearTarea.addEventListener('submit', e=> {
     
-
+    console.log('')
 
 
 
   });
+  */
 
 
   /* -------------------------------------------------------------------------- */
