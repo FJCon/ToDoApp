@@ -1,13 +1,16 @@
 // SEGURIDAD: Si no se encuentra en localStorage info del usuario
 // no lo deja acceder a la página, redirigiendo al login inmediatamente.
-
-
+if(!localStorage.jwt){
+  location.replace('./index.html');  //Si no se encuentra el jwt en el localstorage redirigimos a index.html
+  }
 
 /* ------ comienzan las funcionalidades una vez que carga el documento ------ */
 window.addEventListener('load', function () {
 
   /* ---------------- variables globales y llamado a funciones ---------------- */
-  
+  const urlTareas = 'https://todo-api.ctd.academy/v1/tasks';
+  const urlUsiario = 'https://todo-api.ctd.academy/v1/users/getMe';
+  const btnCerrarSesion = document.querySelector('closeApp');
 
 
   /* -------------------------------------------------------------------------- */
@@ -15,7 +18,8 @@ window.addEventListener('load', function () {
   /* -------------------------------------------------------------------------- */
 
   btnCerrarSesion.addEventListener('click', function () {
-   
+   localStorage.clear();
+   location.replace('./index.html');
 
 
 
