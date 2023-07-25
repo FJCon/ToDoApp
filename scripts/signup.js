@@ -1,4 +1,4 @@
-window.addEventListener('load', function (){
+window.addEventListener('load', ()=>{
     /* ---------------------- obtenemos variables globales ---------------------- */
     const form = document.querySelector('form');
     const nombre = document.querySelector('#inputNombre');
@@ -66,14 +66,14 @@ window.addEventListener('load', function (){
                 console.log('Promesa cumplida');
                 if(data.jwt){
                     localStorage.setItem('jwt', JSON.stringify(data.jwt)); //guarda function validarFormulario()
-                    })
+                    }
+                })
                     location.replace('./mis-tareas.html'); //redireccionamos a la página
                 
             }.catch(err => {
                 console.log("Promesa rechazada:");
                 console.log(err);
             })
-    };
-
+    
 
 });
