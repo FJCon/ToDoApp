@@ -14,6 +14,7 @@ window.addEventListener('load', function () {
     /* -------------------------------------------------------------------------- */
     form.addEventListener('submit', function (event) {
         event.preventDefault();
+      
         const payload = {
             email:email.value,
             password: pass.value
@@ -31,8 +32,6 @@ window.addEventListener('load', function () {
         realizarLogin(settings);
 
         form.reset(); // Limpia los campos del formulario
-
-
     });
 
 

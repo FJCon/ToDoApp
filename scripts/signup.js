@@ -73,7 +73,7 @@ window.addEventListener('load', ()=>{
             }.catch(err => {
                 console.log("Promesa rechazada:");
                 console.log(err);
-            })
+            });
     
 
 });
