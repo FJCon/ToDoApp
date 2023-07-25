@@ -10,7 +10,7 @@ window.addEventListener('load', function () {
   /* ---------------- variables globales y llamado a funciones ---------------- */
   const urlTareas = 'https://todo-api.ctd.academy/v1/tasks';
   const urlUsiario = 'https://todo-api.ctd.academy/v1/users/getMe';
-  const btnCerrarSesion = document.querySelector('closeApp');
+  const btnCerrarSesion = document.querySelector('#closeApp');
 
 
   /* -------------------------------------------------------------------------- */
