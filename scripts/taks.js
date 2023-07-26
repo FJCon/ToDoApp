@@ -48,7 +48,8 @@ window.addEventListener('load', function () {
       
       const userName = document.querySelector('header .user-info p');
       userName.innerText = data.firstName
-    });
+    })
+    .catch(error => console.log(error));
 
 
   };
@@ -59,9 +60,7 @@ window.addEventListener('load', function () {
   /* -------------------------------------------------------------------------- */
 
   function consultarTareas() {
-    const tareasPedientes = document.querySelector('ul.tareas-pendientes');
-    const tareasCompletadas = document.querySelector('ul.tareas-terminadas')
-    
+
     const settings = {
       mothod: "GET",
       headers:{
@@ -71,19 +70,11 @@ window.addEventListener('load', function () {
 
     fetch(urlTareas,settings)
     .then(response=>response.json())
-    .then(data=>{
-      console.log(data);
-
-      data.forEach(task => {
-        let tarea = `<li class='tarea' id='${task.id}' >
-          ${task.description}
-        </li>`
-        if(task.completed){
-          tareasCompletadas.innerHTML += tarea;
-        }else{
-          tareasPedientes.innerHTML += tarea;
-        }
-      });
+    .then(tareas=>{
+      console.table(tareas);
+      renderizarTareas(tareas);
+      botonBorrarTarea();
+      botonesCambioEstado();
     })
 
 
@@ -107,15 +98,50 @@ window.addEventListener('load', function () {
   /* -------------------------------------------------------------------------- */
   /*                  FUNCIÓN 5 - Renderizar tareas en pantalla                 */
   /* -------------------------------------------------------------------------- */
-  function renderizarTareas(listado) {
+  function renderizarTareas(listado) {  
+    
+      const tareasPedientes = document.querySelector('ul.tareas-pendientes');
+      const tareasCompletadas = document.querySelector('ul.tareas-terminadas');
+      tareasPedientes.innerHTML = '';
+      tareasCompletadas.innerHTML = '';
 
+      const numeroFinalizadas = document.querySelector('#cantidad-finalizadas');
+      let contador = 0;
+      numeroFinalizadas.innerText = contador;
 
-
-
-
-
-
+      listado.forEach(tarea =>{
+        let fecha = new Date(tarea.createdAt);
+        if(tarea.completed){
+          contador ++
+          tareasCompletadas.innerHTML +=`
+            <li class="tarea">
+              <div class="hecha">
+                <i class="fa-regular fa-circle-check"></i>
+              </div>
+              <div class="descripcion">
+                <p class="nombre">${tarea.description}</p>
+                <div class="cambios-estados">
+                  <button class="change incompleta" id="${tarea.id}" ><i class="fa-solid fa-rotate-left"></i></button>
+                  <button class="borrar" id="${tarea.id}"><i class="fa-regular fa-trash-can"></i></button>
+                </div>
+              </div>
+            </li>`
+        }else {
+      //lo mandamos al listado de tareas sin terminar
+        tareasPedientes.innerHTML += `
+          <li class="tarea">
+            <button class="change" id="${tarea.id}"><i class="fa-regular fa-circle"></i></button>
+            <div class="descripcion">
+              <p class="nombre">${tarea.description}</p>
+              <p class="timestamp">${fecha.toLocaleDateString()}</p >
+            </div>
+          </li>`
+        }
+      
+        numeroFinalizadas.innerText = contador
+      });
   };
+
 
   /* -------------------------------------------------------------------------- */
   /*                  FUNCIÓN 6 - Cambiar estado de tarea [PUT]                 */
