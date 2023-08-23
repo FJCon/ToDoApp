@@ -15,17 +15,17 @@ window.addEventListener('load', ()=>{
     /*            VALIDACIONES EN EL FORMULARIO SIGN UP EN LADO CLIENTE           */
     /* -------------------------------------------------------------------------- */
     function validarDatos(){
-        let condicion = false;
         if( validarNombre(nombre.value) && validarApellido(apellido.value) && validarEmail(email.value) && validarContrasenia(pass.value) && compararContrasenias(pass.value, repass.value)){
-            condicion = false;
+            return true;
         }else{
-            return condicion;
+            return false;
         }
     }
     /* -------------------------------------------------------------------------- */
     /*            FUNCIÓN 1: Escuchamos el submit y preparamos el envío           */
     /* -------------------------------------------------------------------------- */
     form.addEventListener('submit', function (event) {  
+        console.log("Realizando un submit");
         event.preventDefault();
         if(validarDatos()){
             const payload = {
@@ -38,7 +38,7 @@ window.addEventListener('load', ()=>{
             const settings = {
                 method: 'POST',
                 body: JSON.stringify(payload),
-                headers:{   
+                headers:{       
                     'Content-Type': 'application/json'
                 }
             };
@@ -53,27 +53,35 @@ window.addEventListener('load', ()=>{
     /*                    FUNCIÓN 2: Realizar el signup [POST]                    */
     /* -------------------------------------------------------------------------- */
     function realizarRegister(settings) {
-        console.log('Enviando datos a la API');
+        console.log("Lanzando la consulta a la API");
         fetch(`${url}/users`, settings)
-            .then(response =>{
+            .then(response => {
                 console.log(response);
-                if(!response.ok){
-                    alert('Datos incorrectos');
+
+                if (response.ok != true) {
+                    alert("Alguno de los datos es incorrecto.")
                 }
+
                 return response.json();
+
             })
-            .then(data =>{
-                console.log('Promesa cumplida');
-                if(data.jwt){
-                    localStorage.setItem('jwt', JSON.stringify(data.jwt)); //guarda function validarFormulario()
-                    }
-                })
-                    location.replace('./mis-tareas.html'); //redireccionamos a la página
+            .then(data => {
+                console.log("Promesa cumplida:");
+                console.log(data);
+
+                if (data.jwt) {
+                    //guardo en LocalStorage el objeto con el token
+                    localStorage.setItem('jwt', JSON.stringify(data.jwt));
+
+                    //redireccionamos a la página
+                    location.replace('/mis-tareas.html');
+                }
                 
-            }.catch(err => {
+            }).catch(err => {
                 console.log("Promesa rechazada:");
                 console.log(err);
-            });
+            })
+    };
     
 
 });

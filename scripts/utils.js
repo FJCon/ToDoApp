@@ -1,30 +1,30 @@
 /* ---------------------------------- texto --------------------------------- */
 function validarNombre(texto) {
-    const regex = ^([A-Za-zÑñÁáÉéÍíÓóÚú]+['\-]{0,1}[A-Za-zÑñÁáÉéÍíÓóÚú]+)(\s+([A-Za-zÑñÁáÉéÍíÓóÚú]+['\-]{0,1}[A-Za-zÑñÁáÉéÍíÓóÚú]+))*$;
+    const regex = new RegExp(/^[A-Za-záéíóúñÑ ]+$/);
     const errorNombre = document.querySelector('#errorNombre');
     if(texto.lenght < 3){
         errorNombre.innerText = 'El nombre debe contener al menos 3 caracteres'
         return false;
-    }else if(!texto.test(regex)){
+    }else if(!regex.test(texto)){
         errorNombre.innerText = 'El nombre no puede contener caracteres especiales'
         return false;
     }else{
-        return true;
+        return true;                    
     }
 };
 
 function validarApellido(texto) {
-    const regex = ^([A-Za-zÑñÁáÉéÍíÓóÚú]+['\-]{0,1}[A-Za-zÑñÁáÉéÍíÓóÚú]+)(\s+([A-Za-zÑñÁáÉéÍíÓóÚú]+['\-]{0,1}[A-Za-zÑñÁáÉéÍíÓóÚú]+))*$;
+    const regex = new RegExp(/^[A-Za-záéíóúñÑ ]+$/);
     const errorApellido = document.querySelector('#errorApellido');
     if(texto.lenght < 3){
         errorApellido.innerText = 'El Apellido debe contener al menos 3 caracteres'
         return false;
-    }else if(!texto.test(regex)){
-        errorApellido.innerText = 'El Apellido no puede contener caracteres especiales'
+    }else if(!regex.test(texto)){
+        errorApellido.innerText = 'El Apellido no puede contener caracteres especiales' 
         return false;
     }else{
         return true;
-    }
+    }   
 };
 
 function normalizarTexto(texto) {
@@ -33,10 +33,10 @@ function normalizarTexto(texto) {
 
 /* ---------------------------------- email --------------------------------- */
 function validarEmail(email) {
-    const regex = /^\w+([.-_+]?\w+)*@\w+([.-]?\w+)*(\.\w{2,10})+$/;
-    const errorEmail = documet.querySelector('#errorEmail');
-    if(!texto.test(regex)){
-        errorMensaje.innerText = 'Email invàlido'
+    const regex = new RegExp(/^\w+([.-_+]?\w+)*@\w+([.-]?\w+)*(\.\w{2,10})+$/);
+    const errorEmail = document.querySelector('#errorEmail');
+    if(!regex.test(email)){
+        errorMensaje.innerText = 'Email inválido'
         return false;
     }else{
         return true;
@@ -49,9 +49,9 @@ function normalizarEmail(email) {
 
 /* -------------------------------- password -------------------------------- */
 function validarContrasenia(contrasenia) {
-  const regex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
+  const regex = new RegExp(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/);
   const errorPass = document.querySelector('#errorPassword');
-  if(!contrasenia.test(regex)){
+  if(!regex.test(contrasenia)){
     errorPass.innerText = 'La contraseña debe contener: \n• Al menos una letra mayuscula \n• Al menos una letra minuscula\n• Al menos un nùmero\n •Al menos 8 caracteres en total';
   }else{
     return true;
