@@ -11,6 +11,8 @@ window.addEventListener('load', function () {
   const urlTareas = 'https://todo-api.ctd.academy/v1/tasks';
   const urlUsuario = 'https://todo-api.ctd.academy/v1/users/getMe';
   const token = JSON.parse(localStorage.jwt);
+  const formCrearTarea = document.querySelector(".nueva-tarea");
+  const nuevaTarea = document.querySelector('#nuevaTarea');
 
 
   const btnCerrarSesion = document.querySelector('#closeApp');
@@ -22,8 +24,8 @@ window.addEventListener('load', function () {
   /* -------------------------------------------------------------------------- */
 
   btnCerrarSesion.addEventListener('click', function () {
-   localStorage.clear();
-   location.replace('./index.html');
+    localStorage.clear();
+    location.replace('./index.html');
   });
 
   /* -------------------------------------------------------------------------- */
@@ -85,14 +87,36 @@ window.addEventListener('load', function () {
   /*                    FUNCIÓN 4 - Crear nueva tarea [POST]                    */
   /* -------------------------------------------------------------------------- */
 
-  /*formCrearTarea.addEventListener('submit', e=> {
-    
-    console.log('')
+  formCrearTarea.addEventListener('submit', function (event) {
+    event.preventDefault();
+    console.log("crear terea");
+    console.log(nuevaTarea.value);
+
+    const payload = {
+      description: nuevaTarea.value.trim()
+    };
+    const settings = {
+      method: 'POST',
+      body: JSON.stringify(payload),
+      headers: {
+        'Content-Type': 'application/json',
+        authorization: token
+      }
+    }
+    console.log("Creando un tarea en la base de datos");
+    fetch(urlTareas, settings)
+      .then(response => response.json())
+      .then(tarea => {
+        console.log(tarea)
+        consultarTareas();
+      })
+      .catch(error => console.log(error));
 
 
-
-  });
-  */
+    //limpiamos el form
+    formCrearTarea.reset();
+  })
+  
 
 
   /* -------------------------------------------------------------------------- */
@@ -102,10 +126,10 @@ window.addEventListener('load', function () {
     
       const tareasPedientes = document.querySelector('ul.tareas-pendientes');
       const tareasCompletadas = document.querySelector('ul.tareas-terminadas');
-      tareasPedientes.innerHTML = '';
-      tareasCompletadas.innerHTML = '';
+      tareasPedientes.innerHTML = "";
+      tareasCompletadas.innerHTML = "";
 
-      const numeroFinalizadas = document.querySelector('#cantidad-finalizadas');
+      const numeroFinalizadas = document.querySelector("#cantidad-finalizadas");
       let contador = 0;
       numeroFinalizadas.innerText = contador;
 
