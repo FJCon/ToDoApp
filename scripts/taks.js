@@ -171,10 +171,43 @@ window.addEventListener('load', function () {
   /*                  FUNCIÓN 6 - Cambiar estado de tarea [PUT]                 */
   /* -------------------------------------------------------------------------- */
   function botonesCambioEstado() {
-    
-    
+    const btnCambioEstado = document.querySelectorAll('.change');
 
+    btnCambioEstado.forEach(boton => {
+      //a cada boton le asignamos una funcionalidad
+      boton.addEventListener('click', function (event) {
+        console.log("Cambiando estado de tarea...");
+        console.log(event);
 
+        const id = event.target.id;
+        const url = `${urlTareas}/${id}`
+        const payload = {};
+
+        //segun el tipo de boton que fue clickeado, cambiamos el estado de la tarea
+        if (event.target.classList.contains('incompleta')) {
+          // si está completada, la paso a pendiente
+          payload.completed = false;
+        } else {
+          // sino, está pendiente, la paso a completada
+          payload.completed = true;
+        }
+
+        const settingsCambio = {
+          method: 'PUT',
+          headers: {
+            "Authorization": token,
+            "Content-type": "application/json"
+          },
+          body: JSON.stringify(payload)
+        }
+        fetch(url, settingsCambio)
+          .then(response => {
+            console.log(response.status);
+            //vuelvo a consultar las tareas actualizadas y pintarlas nuevamente en pantalla
+            consultarTareas();
+          })
+      })
+    });
 
   }
 
@@ -183,11 +216,30 @@ window.addEventListener('load', function () {
   /*                     FUNCIÓN 7 - Eliminar tarea [DELETE]                    */
   /* -------------------------------------------------------------------------- */
   function botonBorrarTarea() {
-   
-    
+    //obtenemos los botones de borrado
+    const btnBorrarTarea = document.querySelectorAll('.borrar');
 
-    
+    btnBorrarTarea.forEach(boton => {
+      //a cada boton de borrado le asignamos la funcionalidad
+      boton.addEventListener('click', function (event) {
+        const id = event.target.id;
+        const url = `${urlTareas}/${id}`
 
-  };
+        const settingsCambio = {
+          method: 'DELETE',
+          headers: {
+            "Authorization": token,
+          }
+        }
+        fetch(url, settingsCambio)
+          .then(response => {
+            console.log("Borrando tarea...");
+            console.log(response.status);
+            //vuelvo a consultar las tareas actualizadas y pintarlas nuevamente en pantalla
+            consultarTareas();
+          })
+      })
+    });
+  }
 
 });
